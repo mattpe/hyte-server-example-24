@@ -2,8 +2,8 @@
 import express from 'express';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import {getUserById, getUsers, postUser, postLogin, putUser} from './controllers/user-controller.mjs';
 import itemRouter from './routes/item-router.mjs';
+import userRouter from './routes/user-router.mjs';
 const hostname = '127.0.0.1';
 const port = 3000;
 const app = express();
@@ -20,20 +20,8 @@ app.use('/sivusto', express.static(path.join(__dirname, '../public')));
 
 // RESOURCE /item endpoints
 app.use('/items', itemRouter);
-
-
 // Users resource
-// list users
-app.get('/users', getUsers);
-// get info of a user
-app.get('/users/:id', getUserById);
-// user registration
-app.post('/users', postUser);
-// user login
-app.post('/users/login', postLogin);
-// update user
-app.put('/users/:id', putUser);
-
+app.use('/users', userRouter);
 
 // GET http://127.0.0.1:3000
 // ei toimi tällä hetkellä, koska public-server tarjoilee index.html:n ensin
