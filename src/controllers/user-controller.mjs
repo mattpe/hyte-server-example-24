@@ -1,3 +1,5 @@
+import {listAllUsers} from "../models/user-model.mjs";
+
 const users = [
   {
     id: 1,
@@ -23,7 +25,9 @@ const users = [
 // TODO: use userModel (db) instead of mock data
 // TODO: implement route handlers below for users (real data)
 
-const getUsers = (req, res) => {
+
+const getUsers = async (req, res) => {
+  const users = await listAllUsers();
   res.json(users);
 };
 
