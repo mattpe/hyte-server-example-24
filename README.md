@@ -51,8 +51,54 @@ body: {
   "password": "test-pw-update4",
   "email": "update4@example.com"
 }
+
+POST http://localhost:3000/api/users/login
+content-type: application/json
+
+{
+  "username": "user",
+  "password": "secret"
+}
+
 ```
 
 ### `/entries`
 
-not implemented yet in the example, [THIS IS HOMEWORK](https://github.com/mattpe/hyte-web-dev/blob/main/07-express-mvc-db.md#week-assignment-4---express-mvc-and-database) :)
+Example queries:
+
+```http
+### Get all entries
+GET http://localhost:3000/api/entries
+
+### Get entries by id
+GET http://localhost:3000/api/entries/:id
+
+### Post entry
+POST http://localhost:3000/api/entries
+content-type: application/json
+
+{
+  "entry_date": "2024-02-12",
+  "mood": "Happy",
+  "weight": 69.6,
+  "sleep_hours": 7,
+  "notes": "This was a good day",
+  "user_id": 3
+}
+
+### Update entry
+PUT http://localhost:3000/api/entries/:id
+content-type: application/json
+
+{
+  "entry_date": "2024-02-12",
+  "mood": "Even more happy now",
+  "weight": 69.6,
+  "sleep_hours": 7,
+  "notes": "This was a good day",
+  "user_id": 3
+}
+
+### Delete entry
+DELETE http://localhost:3000/api/entries/:id
+```
