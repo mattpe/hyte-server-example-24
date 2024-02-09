@@ -27,31 +27,41 @@ content-type: application/json
 body: {"name": "New Item"}
 ```
 
-### `/users`
+### `/api/users`
 
 Example queries:
 
 ```http
+# Get all users
 GET http://127.0.0.1:3000/users
+
+# Get user by id
 GET http://127.0.0.1:3000/users/:id
+
+# Delete user
 DELETE http://127.0.0.1:3000/users/:id
 
+# Create user
 POST http://127.0.0.1:3000/users
 content-type: application/json
-body: {
+
+{
   "username": "test-update4",
   "password": "test-pw-update4",
   "email": "update4@example.com"
 }
 
+# Update user
 PUT http://127.0.0.1:3000/users/:id
 content-type: application/json
-body: {
+
+{
   "username": "test-update4",
   "password": "test-pw-update4",
   "email": "update4@example.com"
 }
 
+# Login
 POST http://localhost:3000/api/users/login
 content-type: application/json
 
@@ -62,18 +72,18 @@ content-type: application/json
 
 ```
 
-### `/entries`
+### `/api/entries`
 
 Example queries:
 
 ```http
-### Get all entries
+# Get all entries
 GET http://localhost:3000/api/entries
 
-### Get entries by id
+# Get entries by id
 GET http://localhost:3000/api/entries/:id
 
-### Post entry
+# Post entry
 POST http://localhost:3000/api/entries
 content-type: application/json
 
@@ -86,7 +96,7 @@ content-type: application/json
   "user_id": 3
 }
 
-### Update entry
+# Update entry
 PUT http://localhost:3000/api/entries/:id
 content-type: application/json
 
@@ -99,6 +109,6 @@ content-type: application/json
   "user_id": 3
 }
 
-### Delete entry
+# Delete entry
 DELETE http://localhost:3000/api/entries/:id
 ```
