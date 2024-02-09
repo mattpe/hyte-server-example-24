@@ -79,7 +79,7 @@ const deleteUserById = async (id) => {
   }
 };
 
-// Temporary feature for testing login with insecure hardcoded passwords
+// Used for login
 const selectUserByNameAndPassword = async (username, password) => {
   try {
     const sql = 'SELECT * FROM Users WHERE username=? AND password=?';
