@@ -7,17 +7,21 @@ import {
   deleteUser,
 } from '../controllers/user-controller.mjs';
 
+// eslint-disable-next-line new-cap
 const userRouter = express.Router();
 
 // /user endpoint
-userRouter.route('/')
+userRouter
+  // eslint-disable-next-line indent
+  .route('/')
   // list users
   .get(getUsers)
   // user registration
   .post(postUser);
 
 // /user/:id endpoint
-userRouter.route('/:id')
+userRouter
+  .route('/:id')
   // get info of a user
   .get(getUserById)
   // update user

@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import {
   deleteUserById,
   insertUser,
@@ -5,7 +6,6 @@ import {
   selectUserById,
   updateUserById,
 } from '../models/user-model.mjs';
-
 
 const getUsers = async (req, res) => {
   const result = await listAllUsers();
@@ -27,7 +27,13 @@ const postUser = async (req, res) => {
   const {username, password, email} = req.body;
   // check that all needed fields are included in request
   if (username && password && email) {
-    const result = await insertUser(req.body);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const result = await insertUser({
+      username,
+      email,
+      password: hashedPassword,
+    });
     if (result.error) {
       return res.status(result.error).json(result);
     }
