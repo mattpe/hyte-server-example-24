@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import {validationResult} from 'express-validator';
 import {
   deleteUserById,
   insertUser,
@@ -25,8 +26,10 @@ const getUserById = async (req, res) => {
 
 const postUser = async (req, res) => {
   const {username, password, email} = req.body;
+  const validationErrors = validationResult(req);
+  console.log('user validation errors', validationErrors);
   // check that all needed fields are included in request
-  if (username && password && email) {
+  if (validationErrors.isEmpty()) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const result = await insertUser({
@@ -39,7 +42,13 @@ const postUser = async (req, res) => {
     }
     return res.status(201).json(result);
   } else {
-    return res.status(400).json({error: 400, message: 'bad request'});
+    return res
+      .status(400)
+      .json({
+        error: 400,
+        message: 'bad request',
+        errors: validationErrors.errors,
+      });
   }
 };
 
