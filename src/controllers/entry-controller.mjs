@@ -30,8 +30,8 @@ const getEntryById = async (req, res) => {
 const postEntry = async (req, res) => {
   // Destruct properties from req.body to separate variables,
   // convert property names with underscores to camelCase variable names
+  const userId = req.user.user_id;
   const {
-    user_id: userId,
     entry_date: entryDate,
     mood,
     weight,

@@ -8,23 +8,34 @@ import {
   deleteUser,
 } from '../controllers/user-controller.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
+import {validationErrorHandler} from '../middlewares/error-handler.mjs';
 
 // eslint-disable-next-line new-cap
 const userRouter = express.Router();
 
 // /user endpoint
 userRouter
-  // eslint-disable-next-line indent
   .route('/')
   // list users
   .get(authenticateToken, getUsers)
   // update user
-  .put(authenticateToken, putUser)
+  .put(
+    authenticateToken,
+    body('username', 'username cant be empty')
+      .trim()
+      .isLength({min: 3, max: 20})
+      .isAlphanumeric(),
+    body('password').trim().isLength({min: 8, max: 128}),
+    body('email').trim().isEmail().normalizeEmail(),
+    validationErrorHandler,
+    putUser,
+  )
   // user registration
   .post(
     body('username').trim().isLength({min: 3, max: 20}).isAlphanumeric(),
     body('password').trim().isLength({min: 8, max: 128}),
-    body('email').trim().isEmail(),
+    body('email').trim().isEmail().normalizeEmail(),
+    validationErrorHandler,
     postUser,
   );
 

@@ -1,9 +1,11 @@
+import {validationResult} from 'express-validator';
+
 /**
-* Generic 404 handler
-* @param {object} req - request object
-* @param {object} res - response object
-* @param {function} next - next function
-*/
+ * Generic 404 handler
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {function} next - next function
+ */
 const notFoundHandler = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
   error.status = 404;
@@ -11,14 +13,15 @@ const notFoundHandler = (req, res, next) => {
 };
 
 /**
-* Custom default middleware for handling errors
-* @param {object} err - error object
-* @param {object} req - request object
-* @param {object} res - response object
-* @param {function} next - next function
-*/
+ * Custom default middleware for handling errors
+ * @param {object} err - error object
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {function} next - next function
+ */
 const errorHandler = (err, req, res, next) => {
   res.status(err.status || 500); // default is 500 if err.status is not defined
+  console.log('errorHandler', err.message, err.status, err.errors);
   res.json({
     error: {
       message: err.message,
@@ -28,4 +31,25 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-export {notFoundHandler, errorHandler};
+/**
+ * Custom middleware for handling and formatting validation errors
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {function} next - next function
+ * @return {*} next function call
+ */
+const validationErrorHandler = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log('validation errors', errors.array({onlyFirstError: true}));
+    const error = new Error('bad request');
+    error.status = 400;
+    error.errors = errors.array({onlyFirstError: true}).map((error) => {
+      return {field: error.path, message: error.msg + ': ' + error.value};
+    });
+    return next(error);
+  }
+  next();
+};
+
+export {notFoundHandler, errorHandler, validationErrorHandler};

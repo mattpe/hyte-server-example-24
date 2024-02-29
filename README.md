@@ -2,7 +2,7 @@
 
 **Node.js + Express** application.
 
-(Check weekly branches too.)
+(Check week/feature branches too.)
 
 ## Usage
 
@@ -27,6 +27,24 @@ content-type: application/json
 body: {"name": "New Item"}
 ```
 
+### `/api/auth`
+
+Example queries:
+
+```http
+# Login
+POST http://localhost:3000/api/users/login
+content-type: application/json
+{
+  "username": "user",
+  "password": "secret"
+}
+
+## Get user by token (requires token)
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer <token>
+```
+
 ### `/api/users`
 
 Example queries:
@@ -34,14 +52,17 @@ Example queries:
 ```http
 # Get all users (requires token)
 GET http://127.0.0.1:3000/api/users
+Authorization: Bearer <token>
 
 # Get user by id (requires token)
 GET http://127.0.0.1:3000/api/users/:id
+Authorization: Bearer <token>
 
 # Delete user (requires token)
 DELETE http://127.0.0.1:3000/api/users/:id
+Authorization: Bearer <token>
 
-# Create user
+# Create user (register)
 POST http://127.0.0.1:3000/api/users
 content-type: application/json
 
@@ -53,6 +74,7 @@ content-type: application/json
 
 # Update user's own data (requires token)
 PUT http://127.0.0.1:3000/api/users/
+Authorization: Bearer <token>
 content-type: application/json
 
 {
@@ -60,16 +82,6 @@ content-type: application/json
   "password": "test-pw-update4",
   "email": "update4@example.com"
 }
-
-# Login
-POST http://localhost:3000/api/users/login
-content-type: application/json
-
-{
-  "username": "user",
-  "password": "secret"
-}
-
 ```
 
 ### `/api/entries`
@@ -79,6 +91,7 @@ Example queries:
 ```http
 # Get all entries for a logged in user (requires token)
 GET http://localhost:3000/api/entries
+Authorization: Bearer <token>
 
 # Get entries by id
 GET http://localhost:3000/api/entries/:id

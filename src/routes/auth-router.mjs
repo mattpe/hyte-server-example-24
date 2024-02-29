@@ -4,8 +4,10 @@ import {authenticateToken} from '../middlewares/authentication.mjs';
 
 const authRouter = express.Router();
 
-// user login
-authRouter.post('/login', postLogin)
+authRouter
+  // user login
+  .post('/login', postLogin)
+  // get user info
   .get('/me', authenticateToken, getMe);
 
 export default authRouter;
