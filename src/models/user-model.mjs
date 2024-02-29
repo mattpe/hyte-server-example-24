@@ -1,10 +1,10 @@
-import promisePool from '../utils/database.mjs';console.log
+import promisePool from '../utils/database.mjs';
 
 const listAllUsers = async () => {
   try {
     const sql = 'SELECT user_id, username, user_level FROM Users';
     const [rows] = await promisePool.query(sql);
-    //console.log(rows);
+    // console.log(rows);
     return rows;
   } catch (error) {
     console.error('listAllUsers', error);
