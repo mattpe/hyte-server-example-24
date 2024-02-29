@@ -1,10 +1,10 @@
-import promisePool from '../utils/database.mjs';console.log
+import promisePool from '../utils/database.mjs';
 
 const listAllUsers = async () => {
   try {
     const sql = 'SELECT user_id, username, user_level FROM Users';
     const [rows] = await promisePool.query(sql);
-    //console.log(rows);
+    // console.log(rows);
     return rows;
   } catch (error) {
     console.error('listAllUsers', error);
@@ -51,8 +51,9 @@ const updateUserById = async (user) => {
   try {
     const sql =
       'UPDATE Users SET username=?, password=?, email=? WHERE user_id=?';
-    const params = [user.username, user.password, user.email, user.user_id];
-    const [result] = await promisePool.query(sql, params);
+    const params = [user.username, user.password, user.email, user.userId];
+    await promisePool.query(sql, params);
+    // const [result] = await promisePool.query(sql, params);
     // console.log(result);
     return {message: 'user data updated', user_id: user.user_id};
   } catch (error) {

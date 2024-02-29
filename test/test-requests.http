@@ -35,14 +35,14 @@ content-type: application/json
 {"msg": "HEllo"}
 
 ### Update entry
-PUT http://localhost:3000/api/entries/5
+PUT http://localhost:3000/api/entries/6
 content-type: application/json
 
 {
   "entry_date": "2024-02-12",
   "mood": "Even more happy now",
   "weight": 69.6,
-  "sleep_hours": 7,
+  "sleep_hours": 6,
   "notes": "This was a good day",
   "user_id": 3
 }

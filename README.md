@@ -33,16 +33,16 @@ Example queries:
 
 ```http
 # Get all users (requires token)
-GET http://127.0.0.1:3000/users
+GET http://127.0.0.1:3000/api/users
 
 # Get user by id (requires token)
-GET http://127.0.0.1:3000/users/:id
+GET http://127.0.0.1:3000/api/users/:id
 
 # Delete user (requires token)
-DELETE http://127.0.0.1:3000/users/:id
+DELETE http://127.0.0.1:3000/api/users/:id
 
 # Create user
-POST http://127.0.0.1:3000/users
+POST http://127.0.0.1:3000/api/users
 content-type: application/json
 
 {
@@ -52,7 +52,7 @@ content-type: application/json
 }
 
 # Update user's own data (requires token)
-PUT http://127.0.0.1:3000/users/
+PUT http://127.0.0.1:3000/api/users/
 content-type: application/json
 
 {
