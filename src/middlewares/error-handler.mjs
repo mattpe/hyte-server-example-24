@@ -54,7 +54,7 @@ const errorHandler = (err, req, res, next) => {
  * @return {*} next function call
  */
 const validationErrorHandler = (req, res, next) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req, {strictParams: ['body']});
   if (!errors.isEmpty()) {
     // console.log('validation errors', errors.array({onlyFirstError: true}));
     const error = customError('Bad Request', 400);

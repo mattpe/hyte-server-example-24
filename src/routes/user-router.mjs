@@ -1,5 +1,5 @@
 import express from 'express';
-import {body} from 'express-validator';
+import {body, param} from 'express-validator';
 import {
   getUserById,
   getUsers,
@@ -55,8 +55,18 @@ userRouter
 userRouter
   .route('/:id')
   // get info of a user
-  .get(authenticateToken, getUserById)
+  .get(
+    authenticateToken,
+    param('id', 'must be integer').isInt(),
+    validationErrorHandler,
+    getUserById,
+  )
   // delete user based on id
-  .delete(authenticateToken, deleteUser);
+  .delete(
+    authenticateToken,
+    param('id', 'must be integer').isInt(),
+    validationErrorHandler,
+    deleteUser,
+  );
 
 export default userRouter;
