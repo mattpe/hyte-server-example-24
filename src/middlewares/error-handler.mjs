@@ -1,14 +1,29 @@
 import {validationResult} from 'express-validator';
 
 /**
+ * Custom error generator
+ * @param {string} message - error message
+ * @param {number} [status] - optional error status, default is 500
+ * @param {array} [errors] - optional array of error objects
+ * @return {object} error object
+ */
+const customError = (message, status, errors) => {
+  const error = new Error(message);
+  error.status = status || 500;
+  if (errors) {
+    error.errors = errors;
+  }
+  return error;
+};
+
+/**
  * Generic 404 handler
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {function} next - next function
  */
 const notFoundHandler = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  error.status = 404;
+  const error = customError(`Not Found - ${req.originalUrl}`, 404);
   next(error); // forward error to error handler
 };
 
@@ -26,7 +41,7 @@ const errorHandler = (err, req, res, next) => {
     error: {
       message: err.message,
       status: err.status || 500,
-      errors: err.errors || '',
+      errors: err.errors,
     },
   });
 };
@@ -41,15 +56,14 @@ const errorHandler = (err, req, res, next) => {
 const validationErrorHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log('validation errors', errors.array({onlyFirstError: true}));
-    const error = new Error('bad request');
-    error.status = 400;
+    // console.log('validation errors', errors.array({onlyFirstError: true}));
+    const error = customError('Bad Request', 400);
     error.errors = errors.array({onlyFirstError: true}).map((error) => {
-      return {field: error.path, message: error.msg + ': ' + error.value};
+      return {field: error.path, message: error.msg};
     });
     return next(error);
   }
   next();
 };
 
-export {notFoundHandler, errorHandler, validationErrorHandler};
+export {customError, notFoundHandler, errorHandler, validationErrorHandler};

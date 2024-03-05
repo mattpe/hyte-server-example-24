@@ -20,7 +20,9 @@ const postLogin = async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
   if (match) {
     delete user.password;
-    const token = jwt.sign(user, process.env.JWT_SECRET, {expiresIn: '24h'});
+    const token = jwt.sign(user, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    });
     return res.json({message: 'logged in successfully', user, token});
   } else {
     return res
@@ -29,6 +31,14 @@ const postLogin = async (req, res) => {
   }
 };
 
+/**
+ * Get user info from token
+ * NOTE! user info is extracted from the token
+ * => it is not necessary up to date info (should be refreshed from db)
+ * @param {object} req
+ * @param {object} res
+ * @return {object} user info
+ */
 const getMe = async (req, res) => {
   res.json({user: req.user});
 };

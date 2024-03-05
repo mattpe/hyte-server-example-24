@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import {validationResult} from 'express-validator';
 import {
   deleteUserById,
   insertUser,
@@ -7,19 +6,20 @@ import {
   selectUserById,
   updateUserById,
 } from '../models/user-model.mjs';
+import {customError} from '../middlewares/error-handler.mjs';
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   const result = await listAllUsers();
   if (result.error) {
-    return res.status(result.error).json(result);
+    return next(customError(result, result.error));
   }
   return res.json(result);
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const result = await selectUserById(req.params.id);
   if (result.error) {
-    return res.status(result.error).json(result);
+    return next(customError(result, result.error));
   }
   return res.json(result);
 };
@@ -43,31 +43,31 @@ const postUser = async (req, res, next) => {
 const putUser = async (req, res, next) => {
   // Get userinfo from req.user object extracted from token
   const userId = req.user.user_id;
-  const validationErrors = validationResult(req);
-  if (validationErrors.isEmpty()) {
-    const {username, password, email} = req.body;
-    // hash password if included in request
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const result = await updateUserById({
-      userId,
-      username,
-      password: hashedPassword,
-      email,
-    });
-    if (result.error) {
-      return res.status(result.error).json(result);
-    }
-    return res.status(201).json(result);
-  } else {
-    return res.status(400).json({error: 400, message: 'bad request'});
+  const {username, password, email} = req.body;
+  // hash password if included in request
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const result = await updateUserById({
+    userId,
+    username,
+    password: hashedPassword,
+    email,
+  });
+  if (result.error) {
+    return next(customError(result, result.error));
   }
+  return res.status(200).json(result);
 };
 
-const deleteUser = async (req, res) => {
+// admin user can delete any user
+// user authenticated by token can delete itself
+const deleteUser = async (req, res, next) => {
+  if (req.user.user_level !== 'admin' && req.user.user_id !== req.params.id) {
+    return next(customError('Unauthorized', 401));
+  }
   const result = await deleteUserById(req.params.id);
   if (result.error) {
-    return res.status(result.error).json(result);
+    return next(customError(result, result.error));
   }
   return res.json(result);
 };

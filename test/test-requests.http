@@ -2,6 +2,86 @@
 # Used with VS Code's REST Client extension:
 # <https://marketplace.visualstudio.com/items?itemName=humao.rest-client>
 
+
+##
+## /api/auth endpoint
+##
+
+### Post login
+POST http://localhost:3000/api/auth/login
+content-type: application/json
+
+{
+  "username": "johnjane",
+  "password": "newsecret"
+}
+
+### Post login FAIL
+POST http://localhost:3000/api/auth/login
+content-type: application/json
+
+{
+  "username": "Newuser"
+}
+
+### Get user by token
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJqb2huamFuZSIsImVtYWlsIjoiam9obmphbmVAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yOVQxNzozMDo1MC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDk2MjcyNTcsImV4cCI6MTcwOTcxMzY1N30.98XFsrgPviNwM8Yr_kQ6uTSrgUSK3OUs13FKWi7dKFQ
+
+
+##
+## /api/users endpoint
+##
+
+### Get all users
+GET http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJqb2huamFuZSIsImVtYWlsIjoiam9obmphbmVAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yOVQxNzozMDo1MC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDk2MjcyNTcsImV4cCI6MTcwOTcxMzY1N30.98XFsrgPviNwM8Yr_kQ6uTSrgUSK3OUs13FKWi7dKFQ
+
+### Get user by id
+GET http://localhost:3000/api/users/2
+
+### Get user by id FAIL
+GET http://localhost:3000/api/users/invalidID
+
+### Post users
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{
+  "username": "a",
+  "password": "newse",
+  "email": "johnjane@example.com"
+}
+
+### Post users FAIL
+POST http://localhost:3000/api/users
+content-type: application/json
+
+{"msg": "bad request, missing fields"}
+
+### Update user
+PUT http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJqb2huamFuZSIsImVtYWlsIjoiam9obmphbmVAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yOVQxNzozMDo1MC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDk2MjcyNTcsImV4cCI6MTcwOTcxMzY1N30.98XFsrgPviNwM8Yr_kQ6uTSrgUSK3OUs13FKWi7dKFQ
+content-type: application/json
+
+{
+  "username": "updateduser2",
+  "password": "newsecret2",
+  "email": "updateduser2@example.com"
+}
+
+### Update users FAIL
+PUT http://localhost:3000/api/users
+content-type: application/json
+
+{
+  "something": "this will fail"
+}
+
+### Delete user
+DELETE http://localhost:3000/api/users/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJqb2huamFuZSIsImVtYWlsIjoiam9obmphbmVAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yOVQxNzozMDo1MC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDk2MjcyNTcsImV4cCI6MTcwOTcxMzY1N30.98XFsrgPviNwM8Yr_kQ6uTSrgUSK3OUs13FKWi7dKFQ
+
 ##
 ## /api/entries endpoint
 ##
@@ -58,79 +138,3 @@ content-type: application/json
 
 ### Delete entry
 DELETE http://localhost:3000/api/entries/5
-
-##
-## /api/users endpoint
-##
-
-### Get all users
-GET http://localhost:3000/api/users
-
-### Get user by id
-GET http://localhost:3000/api/users/2
-
-### Get user by id FAIL
-GET http://localhost:3000/api/users/invalidID
-
-### Post users
-POST http://localhost:3000/api/users
-content-type: application/json
-
-{
-  "username": "a",
-  "password": "newse",
-  "email": "johnjane@example.com"
-}
-
-### Post users FAIL
-POST http://localhost:3000/api/users
-content-type: application/json
-
-{"msg": "bad request, missing fields"}
-
-### Update user
-PUT http://localhost:3000/api/users/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6Ik5ld3VzZXIiLCJlbWFpbCI6Im5ld3VzZXJAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0wOVQwOTozNzowMi4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDc0ODUyNDgsImV4cCI6MTcwNzU3MTY0OH0.9VI3dAFXy8lD5K9tvztPtkgwX0s38GLKulkiEnxj4G0
-content-type: application/json
-
-{
-  "username": "updateduser2",
-  "password": "newsecret2",
-  "email": "updateduser2@example.com"
-}
-
-### Update users FAIL
-PUT http://localhost:3000/api/users/2
-content-type: application/json
-
-{
-  "something": "this will fail"
-}
-
-### Delete user
-DELETE http://localhost:3000/api/users/2
-
-##
-## /api/auth endpoint
-##
-
-### Post login
-POST http://localhost:3000/api/auth/login
-content-type: application/json
-
-{
-  "username": "johnjane",
-  "password": "newsecret"
-}
-
-### Post login FAIL
-POST http://localhost:3000/api/users/login
-content-type: application/json
-
-{
-  "username": "Newuser"
-}
-
-### Get user by token
-GET http://localhost:3000/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJqb2huamFuZSIsImVtYWlsIjoiam9obmphbmVAZXhhbXBsZS5jb20iLCJjcmVhdGVkX2F0IjoiMjAyNC0wMi0yOVQxNzozMDo1MC4wMDBaIiwidXNlcl9sZXZlbCI6InJlZ3VsYXIiLCJpYXQiOjE3MDkyMjc4OTEsImV4cCI6MTcwOTMxNDI5MX0.pPYQ4vooWBvODJ4TmX0iSBRE0UfPItaXQVqST8u5I14
