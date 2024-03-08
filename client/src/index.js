@@ -1,17 +1,28 @@
-import './style.css';
+import '../style.css';
 import {fetchData} from './fetch.js';
+
+// Apufunktio, kirjoittaa halutin koodiblokin sisään halutun tekstin
+const logResponse = (codeblock, text) => {
+  document.getElementById(codeblock).innerText = text;
+};
+
+// Apufunktio, Tyhjennä local storage
+const clearLocalStorage = () => {
+  localStorage.removeItem('token');
+  logResponse('clearResponse', 'localStorage cleared!');
+};
 
 // haetaan nappi josta lähetetään formi ja luodaan käyttäjä
 const createUser = document.querySelector('.createuser');
 
 createUser.addEventListener('click', async (evt) => {
   evt.preventDefault();
-  console.log('Nyt luodaan käyttäjä');
+  console.log('Yritetään luoda käyttäjä');
 
   const url = import.meta.env.VITE_API_URL + '/users';
 
   // # Create user
-  // POST http://127.0.0.1:3000/api/users
+  // POST /api/users
   // content-type: application/json
 
   const form = document.querySelector('.create_user_form');
@@ -27,8 +38,6 @@ createUser.addEventListener('click', async (evt) => {
 
   console.log('Tiedot valideja, jatketaan');
 
-  const username = form.querySelector('input[name=username]').value;
-
   // kokeillaan ensin kovakoodattuna
   // const body = {
   //   username: 'testii',
@@ -36,6 +45,7 @@ createUser.addEventListener('click', async (evt) => {
   //   email: 'testii@testii.fi',
   // };
 
+  const username = form.querySelector('input[name=username]').value;
   const data = {
     username: username,
     password: form.querySelector('input[name=password]').value,
@@ -47,7 +57,8 @@ createUser.addEventListener('click', async (evt) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
+    // body data type must match "Content-Type" header
+    body: JSON.stringify(data),
   };
 
   // fetchData(url, options).then((data) => {
@@ -59,8 +70,9 @@ createUser.addEventListener('click', async (evt) => {
   try {
     const responseData = await fetchData(url, options);
     console.log(responseData);
+    alert(responseData.message);
   } catch (error) {
-    console.error(error);
+    console.error(error.response);
   }
 });
 
@@ -73,7 +85,7 @@ loginUser.addEventListener('click', async (evt) => {
   console.log('Nyt logataan sisään');
 
   // # Login
-  // POST http://localhost:3000/api/auth/login
+  // POST /api/auth/login
   // content-type: application/json
 
   // {
@@ -81,7 +93,7 @@ loginUser.addEventListener('click', async (evt) => {
   //   "password": "secret"
   // }
 
-  const url = 'http://localhost:3000/api/auth/login';
+  const url = import.meta.env.VITE_API_URL + '/auth/login';
 
   const form = document.querySelector('.login_form');
 
@@ -95,7 +107,8 @@ loginUser.addEventListener('click', async (evt) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
+    // body data type must match "Content-Type" header
+    body: JSON.stringify(data),
   };
 
   // 1. Käy Ulla läpi tämä auth sivu ja sync/await rakenne vaihtoehto
@@ -119,10 +132,13 @@ loginUser.addEventListener('click', async (evt) => {
     } else {
       alert(data.message);
       localStorage.setItem('name', data.user.username);
-      window.location.href = 'home.html';
+      // window.location.href = 'home.html';
     }
 
-    logResponse('loginResponse', `localStorage set with token value: ${data.token}`);
+    logResponse(
+      'loginResponse',
+      `localStorage set with token value: ${data.token}`,
+    );
   });
 });
 
@@ -132,10 +148,10 @@ meRequest.addEventListener('click', async () => {
   console.log('Testataan TOKENIA ja haetaan käyttäjän tiedot');
 
   // # Get user info by token (requires token)
-  // GET http://localhost:3000/api/auth/me
+  // GET /api/auth/me
   // Authorization: Bearer (put-user-token-here)
 
-  const url = 'http://localhost:3000/api/auth/me';
+  const url = import.meta.env.VITE_API_URL + '/auth/me';
   const muntokeni = localStorage.getItem('token');
   console.log('Tämä on haettu LocalStoragesta', muntokeni);
 
@@ -158,14 +174,3 @@ meRequest.addEventListener('click', async () => {
 // Haetaan nappi josta tyhjennetään localStorage
 const clear = document.querySelector('#clearButton');
 clear.addEventListener('click', clearLocalStorage);
-
-// Apufunktio, kirjoittaa halutin koodiblokin sisään halutun tekstin
-function logResponse(codeblock, text) {
-  document.getElementById(codeblock).innerText = text;
-}
-
-// Apufunktio, Tyhjennä local storage
-function clearLocalStorage() {
-  localStorage.removeItem('token');
-  logResponse('clearResponse', 'localStorage cleared!');
-}

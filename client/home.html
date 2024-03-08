@@ -51,7 +51,7 @@
         <!-- Delete nappula poistaa käyttäjän-->
         <!-- käytämme tässä apuna data-attribuutteja-->
         <!-- # Delete user
-              DELETE http://127.0.0.1:3000/users/:id
+              DELETE /users/:id
         -->
       </tbody>
     </table>
@@ -69,13 +69,13 @@
 
         <pre><code>
           # Get all users (requires token)
-          GET http://127.0.0.1:3000/api/users
-          
+          GET /api/users
+
           # Get user by id (requires token)
-          GET http://127.0.0.1:3000/api/users/:id
-          
+          GET /api/users/:id
+
           # Delete user (requires token)
-          DELETE http://127.0.0.1:3000/api/users/:id
+          DELETE /api/users/:id
           </code></pre>
 
         <table class="styled-table">
@@ -91,14 +91,14 @@
           <tbody class="tbody">
             <!-- tänne haetaan kaikki käyttäjät -->
             <!-- # Get all users -->
-            <!-- GET http://127.0.0.1:3000/api/users -->
+            <!-- GET /api/users -->
           </tbody>
         </table>
 
         <button class="get_users">Hae users tiedot</button>
       </div>
       <div style="flex: 1">
-        <h3>KOTIEHTÄVÄ: PUT and FORMS</h3>
+        <h3>KOTITEHTÄVÄ: PUT and FORMS</h3>
 
         <p>
           Lisää ja päivitä käyttäjiä eli users tiedot formin avulla. Formi lisää uuden käyttäjän
@@ -108,11 +108,11 @@
         </p>
 
         <pre><code>
-          
+
           # Update user's own data (requires token)
-          PUT http://127.0.0.1:3000/api/users/
+          PUT /api/users/
           content-type: application/json
-          
+
           {
             "username": "test-update4",
             "password": "test-pw-update4",
@@ -150,6 +150,6 @@
     </pre>
     <button class="get_entry">Hae (user:1) entries</button>
 
-    <script type="module" src="/home.js"></script>
+    <script type="module" src="/src/home.js"></script>
   </body>
 </html>

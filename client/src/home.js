@@ -1,10 +1,10 @@
-import './style.css';
-import { fetchData } from './fetch.js';
+import '../style.css';
+import {fetchData} from './fetch.js';
 
 const bt1 = document.querySelector('.get_entry');
 bt1.addEventListener('click', async () => {
   console.log('Klikki toimii');
-  const url = 'http://localhost:3000/api/entries/1';
+  const url = import.meta.env.VITE_API_URL + '/entries/1';
 
   fetchData(url).then((data) => {
     // käsitellään fetchData funktiosta tullut JSON
@@ -12,7 +12,7 @@ bt1.addEventListener('click', async () => {
   });
 
   // # Get entries by id
-  // # GET http://localhost:3000/api/entries/:id
+  // # GET /api/entries/:id
 });
 
 // Haetaan kaikki käyttäjät ja luodaan niistä taulukko
@@ -21,10 +21,10 @@ bt1.addEventListener('click', async () => {
 const allButton = document.querySelector('.get_users');
 allButton.addEventListener('click', getUsers);
 
-async function getUsers() {
-  console.log('Haetaa kaikki käyttäjät');
-  const url = 'http://127.0.0.1:3000/api/users';
-  let token = localStorage.getItem('token');
+const getUsers = async () => {
+  console.log('Haetaan kaikki käyttäjät');
+  const url = import.meta.env.VITE_API_URL + '/users';
+  const token = localStorage.getItem('token');
   const options = {
     method: 'GET',
     headers: {
@@ -43,8 +43,12 @@ async function getUsers() {
   // } catch (error) {
   //   console.error(error);
   // }
-}
+};
 
+/**
+ *
+ * @param {*} data
+ */
 function createTable(data) {
   console.log(data);
 
@@ -71,7 +75,8 @@ function createTable(data) {
 
     // <td><button class="check" data-id="2">Info</button></td>
     // const td3 = document.createElement('td');
-    //td3.innerHTML = `<button class="check" data-id="${rivi.user_id}">Info</button>`;
+    // td3.innerHTML = `<button class="check"
+    // data-id="${rivi.user_id}">Info</button>`;
 
     const td3 = document.createElement('td');
     const button1 = document.createElement('button');
@@ -94,7 +99,7 @@ function createTable(data) {
     button2.addEventListener('click', deleteUser);
 
     // td5
-    var td5 = document.createElement('td');
+    const td5 = document.createElement('td');
     td5.innerText = rivi.user_id;
 
     tr.appendChild(td1);
@@ -115,12 +120,16 @@ closeButton.addEventListener('click', () => {
   dialog.close();
 });
 
+/**
+ *
+ * @param {*} evt
+ */
 async function getUser(evt) {
   // haetaan data-attribuutin avulla id, tämä nopea tapa
   const id = evt.target.attributes['data-id'].value;
   console.log('Getting individual data for ID:', id);
-  const url = `http://127.0.0.1:3000/api/users/${id}`;
-  let token = localStorage.getItem('token');
+  const url = `${import.meta.env.VITE_API_URL}/users/${id}`;
+  const token = localStorage.getItem('token');
   const options = {
     method: 'GET',
     headers: {
@@ -141,6 +150,10 @@ async function getUser(evt) {
   });
 }
 
+/**
+ *
+ * @param {*} evt
+ */
 async function deleteUser(evt) {
   console.log('Deletoit tietoa');
   console.log(evt);
@@ -162,7 +175,7 @@ async function deleteUser(evt) {
   // </tr>
 
   const url = `http://127.0.0.1:3000/api/users/${id}`;
-  let token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
   const options = {
     method: 'DELETE',
     headers: {
@@ -170,7 +183,9 @@ async function deleteUser(evt) {
     },
   };
 
-  const answer = confirm(`Oletko varma että haluat poistaa käyttäjän ID: ${id} `);
+  const answer = confirm(
+    `Oletko varma että haluat poistaa käyttäjän ID: ${id} `,
+  );
   if (answer) {
     fetchData(url, options).then((data) => {
       console.log(data);
@@ -179,21 +194,24 @@ async function deleteUser(evt) {
   }
 }
 
+/**
+ *
+ */
 async function showUserName() {
   console.log('Hei täällä ollaan! Nyt pitäisi hakea käyttäjän tiedot');
 
   // hae käyttäjän omat tiedot
   // 1. joko lokal storagesta jos on tallessa
-  //let name = localStorage.getItem('name');
+  // let name = localStorage.getItem('name');
 
   // hae elementti johon printtaat tiedot
-  //console.log('Nimesi on:', name);
-  //document.getElementById('name').innerHTML = name;
+  // console.log('Nimesi on:', name);
+  // document.getElementById('name').innerHTML = name;
 
   // 2. hae uudestaan /api/auth/me endpointin kautta
 
-  const url = 'http://localhost:3000/api/auth/me';
-  let token = localStorage.getItem('token');
+  const url = import.meta.env.VITE_API_URL + '/auth/me';
+  const token = localStorage.getItem('token');
   const options = {
     method: 'GET',
     headers: {
@@ -211,6 +229,10 @@ async function showUserName() {
 
 document.querySelector('.logout').addEventListener('click', logOut);
 
+/**
+ *
+ * @param {*} evt
+ */
 function logOut(evt) {
   evt.preventDefault();
   localStorage.removeItem('token');
