@@ -1,5 +1,7 @@
 # Hyte web dev example back-end server
 
+**NOTE!** token expiration time is moved/added to `.env` file. Check [`.env.sample`](./.env.sample)
+
 **Node.js + Express** application.
 
 (Check week/feature branches too.)
