@@ -8,6 +8,12 @@ import {
 } from '../models/user-model.mjs';
 import {customError} from '../middlewares/error-handler.mjs';
 
+/**
+ * Get all users
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ * @param {function} next - next function
+ */
 const getUsers = async (req, res, next) => {
   const result = await listAllUsers();
   if (result.error) {
