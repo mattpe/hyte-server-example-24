@@ -5,7 +5,6 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
     "dev": "nodemon src/index.js",
     "start": "nodemon src/index.js",
     "docs": "apidoc -i src/ -o docs/"
@@ -23,7 +22,6 @@
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
-    "jest": "^29.7.0",
     "nodemon": "^3.0.3"
   },
   "dependencies": {
