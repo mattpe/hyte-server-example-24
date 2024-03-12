@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build-homedir": "vite build --base=/~username/my-app/",
     "preview": "vite preview"
   },
   "devDependencies": {
