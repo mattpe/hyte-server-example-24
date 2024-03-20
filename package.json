@@ -1,6 +1,6 @@
 {
   "name": "hyte-server-example-24",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Example REST API server",
   "main": "index.js",
   "type": "module",
@@ -22,7 +22,6 @@
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
-    "nodemon": "^3.0.3"
   },
   "dependencies": {
     "apidoc": "^1.2.0",

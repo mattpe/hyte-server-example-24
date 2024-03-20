@@ -1,5 +1,7 @@
 # Hyte web dev example back-end server
 
+Conflict DEMO branch.
+
 **NOTE!** Token expiration time is moved/added to `.env` file. Check [`.env.sample`](./.env.sample)
 
 **NOTE #2!** When publishing application on real server, you need to update your client to connect to your public server address instead of `localhost:3000`!
