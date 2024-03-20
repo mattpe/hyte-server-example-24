@@ -1,7 +1,7 @@
 {
   "name": "hyte-server-example-24",
-  "version": "1.1.0",
-  "description": "Example REST API server",
+  "version": "1.2.0",
+  "description": "Server",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,14 +11,7 @@
   },
   "author": "mattpe",
   "license": "ISC",
-  "apidoc": {
-    "title": "Health Diary API documentation",
-    "url": "https://example.com/api",
-    "order": [
-      "Authentication",
-      "User"
-    ]
-  },
+
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
@@ -27,7 +20,6 @@
     "apidoc": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
