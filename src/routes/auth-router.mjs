@@ -1,6 +1,9 @@
 import express from 'express';
 import {body} from 'express-validator';
-import {getMe, postLogin} from '../controllers/auth-controller.mjs';
+// original controller (back-end only)
+// import {getMe, postLogin} from '../controllers/auth-controller.mjs';
+// Use Kubios auth controller instead (TODO: apidoc need to be updated):
+import {getMe, postLogin} from '../controllers/kubios-auth-controller.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {validationErrorHandler} from '../middlewares/error-handler.mjs';
 

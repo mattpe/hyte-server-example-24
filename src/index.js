@@ -9,6 +9,7 @@ import cors from 'cors';
 import logger from './middlewares/logger.mjs';
 import authRouter from './routes/auth-router.mjs';
 import {errorHandler, notFoundHandler} from './middlewares/error-handler.mjs';
+import kubiosRouter from './routes/kubios-router.mjs';
 const hostname = '127.0.0.1';
 const port = 3000;
 const app = express();
@@ -48,6 +49,9 @@ app.use('/api/users', userRouter);
 
 // User authentication
 app.use('/api/auth', authRouter);
+
+// kubios routes
+app.use('/api/kubios', kubiosRouter);
 
 // Default 404 not found
 app.use(notFoundHandler);
